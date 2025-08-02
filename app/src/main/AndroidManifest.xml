@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <!-- 允许访问网络 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,10 +12,17 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.WeiBoxx"
+        android:theme="@style/Base.Theme.WeiBoxx"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
             android:name=".ui.MainActivity"
+=======
+            android:name=".ui.welcome.WelcomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+>>>>>>> 49d069e6c6f18f70dab44bd6188f2b1ffff3a8fd
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
