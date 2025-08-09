@@ -59,6 +59,8 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.room:room-rxjava2:2.6.1")
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     kapt("androidx.room:room-compiler:2.6.1")
 
     // 测试

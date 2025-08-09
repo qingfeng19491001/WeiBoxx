@@ -16,17 +16,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-<<<<<<< HEAD:app/src/main/java/com/example/weiboxx/ui/MainActivity.kt
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.weiboxx.R
-=======
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.coroutines.launch
->>>>>>> 49d069e6c6f18f70dab44bd6188f2b1ffff3a8fd:app/src/main/java/com/example/weiboxx/MainActivity.kt
 
 class MainActivity : AppCompatActivity() {
 

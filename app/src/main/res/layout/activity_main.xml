@@ -3,11 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     tools:context=".ui.MainActivity">
-=======
-    android:orientation="vertical">
->>>>>>> 49d069e6c6f18f70dab44bd6188f2b1ffff3a8fd
 
     <!-- 顶部工具栏 -->
     <androidx.appcompat.widget.Toolbar
