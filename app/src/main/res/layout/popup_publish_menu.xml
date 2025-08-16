@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/popup_bg"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:id="@+id/ll_write_weibo"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_write" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="写微博"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp" />
+    </LinearLayout>
+
+    <!-- 其他选项，类似结构 -->
+
+    <LinearLayout
+        android:id="@+id/ll_album"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_album" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="相册"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp" />
+    </LinearLayout>
+
+    <!-- 签到/点评 -->
+    <LinearLayout
+        android:id="@+id/ll_check_in"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_check_in" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="签到/点评"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp" />
+    </LinearLayout>
+
+    <!-- 直播 -->
+    <LinearLayout
+        android:id="@+id/ll_live"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_live" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="直播"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -7,5 +7,7 @@ interface PostRepository {
     suspend fun getPosts(): List<Post>
     suspend fun likePost(postId: String): Boolean
     suspend fun sharePost(postId: String): Boolean
-    fun launch(dispatcher: kotlinx.coroutines.CoroutineDispatcher, function: () -> kotlin.Any)
+    suspend fun addPost(content: String): Boolean // 添加这个方法
+    // 删除不需要的 launch 方法
+
 }

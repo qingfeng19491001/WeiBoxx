@@ -1,13 +1,20 @@
 package com.example.weiboxx.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "posts")
 data class Post(
-    val id: String,
+    @PrimaryKey val id: String,
     val username: String,
-    val content: String,
+    val avatar: String,
     val timestamp: String,
     val source: String,
-    val likes: Int = 0,
-    val comments: Int = 0,
-    val shares: Int = 0,
-    val avatar: String? = null
+    val content: String,
+    val likes: Int,
+    val comments: Int,
+    val shares: Int,
+    val isLiked: Boolean = false,
+    val createdAt: Long = System.currentTimeMillis()// 添加此字段用于排序
+
 )

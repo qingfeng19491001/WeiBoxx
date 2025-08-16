@@ -16,6 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.weiboxx.R
 import com.example.weiboxx.ui.MainViewModel
 import kotlinx.coroutines.launch
+
 class PostListFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
@@ -50,7 +51,6 @@ class PostListFragment : Fragment() {
                 "like" -> viewModel.likePost(postId)
                 "share" -> viewModel.sharePost(postId)
                 "comment" -> {
-                    // 处理评论点击
                     Toast.makeText(requireContext(), "评论功能开发中", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -58,15 +58,12 @@ class PostListFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
-
-        // 添加动画
         recyclerView.itemAnimator = DefaultItemAnimator()
 
         swipeRefresh.setOnRefreshListener {
             viewModel.refreshPosts()
         }
 
-        // 设置刷新指示器颜色
         swipeRefresh.setColorSchemeResources(R.color.orange)
     }
 
@@ -93,15 +90,21 @@ class PostListFragment : Fragment() {
     private fun observeViewModel() {
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
-                adapter.submitList(state.posts)
+                adapter.submitList(state.posts.toList()) // 修复：确保触发列表更新
                 swipeRefresh.isRefreshing = state.isRefreshing
                 isLoadingMore = state.isLoadingMore
 
-                // 处理错误状态
                 state.error?.let { error ->
                     showErrorDialog(error)
                     viewModel.clearError()
                 }
+            }
+        }
+
+        // 添加：观察Toast消息
+        viewModel.toastMessage.observe(viewLifecycleOwner) { message ->
+            if (message.isNotEmpty()) {
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             }
         }
     }
