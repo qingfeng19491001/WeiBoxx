@@ -155,7 +155,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_comment"
+                    android:src="@drawable/ic_comment2"
                     android:tint="@android:color/darker_gray" />
 
                 <TextView
@@ -182,7 +182,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_like"
+                    android:src="@drawable/ic_like2"
                     app:tint="@android:color/darker_gray"
                     tools:ignore="UseAppTint" />
 

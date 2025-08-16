@@ -17,7 +17,6 @@ class VideoActivity : AppCompatActivity(), OnVideoItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video)
-
         initViews()
         initMockData()
         setupViewPager()
@@ -28,6 +27,18 @@ class VideoActivity : AppCompatActivity(), OnVideoItemClickListener {
     }
 
     private fun initMockData() {
+        val testVideoUrls = listOf(
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+        )
 
         val mockVideos = listOf(
             VideoBean(
@@ -36,7 +47,8 @@ class VideoActivity : AppCompatActivity(), OnVideoItemClickListener {
                 musicName = "访客-创作的原声",
                 likeCount = 111000,
                 commentCount = 11000,
-                shareCount = 1111
+                shareCount = 1111,
+                videoUrl = testVideoUrls[0]
             ),
             VideoBean(
                 username = "小明",
@@ -44,7 +56,8 @@ class VideoActivity : AppCompatActivity(), OnVideoItemClickListener {
                 musicName = "经典背景音乐",
                 likeCount = 55000,
                 commentCount = 3200,
-                shareCount = 890
+                shareCount = 890,
+                videoUrl = testVideoUrls[1]
             ),
             VideoBean(
                 username = "美食达人",
@@ -52,7 +65,8 @@ class VideoActivity : AppCompatActivity(), OnVideoItemClickListener {
                 musicName = "轻松愉快BGM",
                 likeCount = 98000,
                 commentCount = 8900,
-                shareCount = 2100
+                shareCount = 2100,
+                videoUrl = testVideoUrls[2]
             ),
             VideoBean(
                 username = "旅行者",
@@ -60,7 +74,8 @@ class VideoActivity : AppCompatActivity(), OnVideoItemClickListener {
                 musicName = "大自然的声音",
                 likeCount = 156000,
                 commentCount = 15600,
-                shareCount = 4500
+                shareCount = 4500,
+                videoUrl = testVideoUrls[3]
             ),
             VideoBean(
                 username = "健身教练",
@@ -68,7 +83,8 @@ class VideoActivity : AppCompatActivity(), OnVideoItemClickListener {
                 musicName = "运动节拍",
                 likeCount = 203000,
                 commentCount = 25000,
-                shareCount = 8900
+                shareCount = 8900,
+                videoUrl = testVideoUrls[4]
             ),
             VideoBean(
                 username = "宠物博主",
@@ -76,7 +92,8 @@ class VideoActivity : AppCompatActivity(), OnVideoItemClickListener {
                 musicName = "可爱萌宠音效",
                 likeCount = 89000,
                 commentCount = 6700,
-                shareCount = 1800
+                shareCount = 1800,
+                videoUrl = testVideoUrls[5]
             ),
             VideoBean(
                 username = "学习达人",
@@ -84,7 +101,8 @@ class VideoActivity : AppCompatActivity(), OnVideoItemClickListener {
                 musicName = "专注学习音乐",
                 likeCount = 45000,
                 commentCount = 3400,
-                shareCount = 1200
+                shareCount = 1200,
+                videoUrl = testVideoUrls[6]
             ),
             VideoBean(
                 username = "游戏玩家",
@@ -92,7 +110,26 @@ class VideoActivity : AppCompatActivity(), OnVideoItemClickListener {
                 musicName = "游戏背景音乐",
                 likeCount = 187000,
                 commentCount = 28000,
-                shareCount = 9500
+                shareCount = 9500,
+                videoUrl = testVideoUrls[7]
+            ),
+            VideoBean(
+                username = "汽车达人",
+                description = "户外驾驶体验分享🚗",
+                musicName = "驾驶音乐",
+                likeCount = 76000,
+                commentCount = 5400,
+                shareCount = 1600,
+                videoUrl = testVideoUrls[8]
+            ),
+            VideoBean(
+                username = "科幻爱好者",
+                description = "超震撼的科幻短片！🚀",
+                musicName = "科幻电影配乐",
+                likeCount = 234000,
+                commentCount = 34000,
+                shareCount = 12000,
+                videoUrl = testVideoUrls[9]
             )
         )
 
@@ -113,8 +150,8 @@ class VideoActivity : AppCompatActivity(), OnVideoItemClickListener {
                 // 页面切换时暂停所有视频播放
                 Jzvd.releaseAllVideos()
 
-            //其他页面切换逻辑
-            //showToast("切换到第 ${position + 1} 个视频")
+                //其他页面切换逻辑
+                //showToast("切换到第 ${position + 1} 个视频")
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {

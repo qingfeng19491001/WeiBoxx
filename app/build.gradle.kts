@@ -7,7 +7,6 @@ plugins {
 android {
     namespace = "com.example.weiboxx"
     compileSdk = 35
-
     defaultConfig {
         applicationId = "com.example.weiboxx"
         minSdk = 33
@@ -36,9 +35,21 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    viewBinding {
+        enable = true
+    }
 }
 
 dependencies {
+    // ViewModel and LiveData
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("androidx.activity:activity-ktx:1.8.2")
+
+    // DataBinding
+    kapt ("androidx.databinding:databinding-compiler:8.2.2")
+
     // Glide 图片加载库
     implementation ("com.github.bumptech.glide:glide:4.14.2")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
