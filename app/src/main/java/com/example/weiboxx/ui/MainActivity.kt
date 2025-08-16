@@ -1,37 +1,32 @@
 package com.example.weiboxx.ui
 
-import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.WindowManager
 import android.widget.ImageView
-import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.weiboxx.data.repository.PostRepositoryImpl
+import com.example.weiboxx.database.AppDatabase
+import com.example.weiboxx.network.ApiService
+import com.example.weiboxx.ui.MainViewModel
+import com.example.weiboxx.ui.MainViewModelFactory
+import com.example.weiboxx.ui.home.FollowFragment
+import com.example.weiboxx.ui.home.PostListFragment
+import com.example.weiboxx.ui.home.ViewPagerAdapter
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+<<<<<<<<< Temporary merge branch 1:app/src/main/java/com/example/weiboxx/ui/MainActivity.kt
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.weiboxx.R
+=========
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import androidx.viewpager2.widget.ViewPager2
-import com.example.weiboxx.R
-import com.example.weiboxx.data.repository.PostRepositoryImpl
-import com.example.weiboxx.database.AppDatabase
-import com.example.weiboxx.network.ApiService
-import com.example.weiboxx.ui.home.FollowFragment
-import com.example.weiboxx.ui.home.PostListFragment
-import com.example.weiboxx.ui.home.ViewPagerAdapter
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import com.example.weiboxx.ui.publish.WritePostActivity
-import androidx.activity.result.contract.ActivityResultContracts
+>>>>>>>>> Temporary merge branch 2:app/src/main/java/com/example/weiboxx/MainActivity.kt
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,31 +36,10 @@ class MainActivity : AppCompatActivity() {
     // 底部导航相关
     private lateinit var navHome: ImageView
     private lateinit var navPlay: ImageView
-    private lateinit var navAdd: ImageView
     private lateinit var navSearch: ImageView
     private lateinit var navMail: ImageView
     private lateinit var navPerson: ImageView
-    private var currentNavIndex = 0
-
-    private val writePostLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        Log.d("MainActivity", "WritePost result: ${result.resultCode}")
-        if (result.resultCode == RESULT_OK) {
-            val content = result.data?.getStringExtra("post_content")
-            Log.d("MainActivity", "Post content: $content")
-            if (!content.isNullOrEmpty()) {
-                Log.d("MainActivity", "Calling viewModel.addPost()")
-                viewModel.addPost(content)
-            } else {
-                Log.w("MainActivity", "Post content is null or empty")
-            }
-        } else {
-            Log.w("MainActivity", "WritePost was cancelled or failed")
-        }
-    }
-
-    private var publishPopup: PopupWindow? = null
+    private var currentNavIndex = 0 // 当前选中的导航索引，默认首页
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,13 +73,14 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         viewPager = findViewById(R.id.viewPager)
 
+        // 初始化底部导航视图
         navHome = findViewById(R.id.iv_nav_home)
         navPlay = findViewById(R.id.iv_nav_play)
-        navAdd = findViewById(R.id.iv_add)
         navSearch = findViewById(R.id.iv_nav_search)
         navMail = findViewById(R.id.iv_nav_mail)
         navPerson = findViewById(R.id.iv_nav_person)
 
+        // 设置ViewPager适配器
         val fragments = listOf(
             PostListFragment(),
             FollowFragment()
@@ -114,6 +89,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupTopNavigation() {
+        // 设置顶部导航点击事件
         findViewById<TextView>(R.id.tv_recommend).setOnClickListener {
             viewPager.currentItem = 0
             updateTopNavigation(0)
@@ -124,6 +100,7 @@ class MainActivity : AppCompatActivity() {
             updateTopNavigation(1)
         }
 
+        // 设置ViewPager页面变化监听
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -133,41 +110,49 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNavigation() {
+        // 设置底部导航点击事件
         navHome.setOnClickListener { selectBottomNavItem(0) }
         navPlay.setOnClickListener { selectBottomNavItem(1) }
         navSearch.setOnClickListener { selectBottomNavItem(2) }
         navMail.setOnClickListener { selectBottomNavItem(3) }
         navPerson.setOnClickListener { selectBottomNavItem(4) }
 
-        // 修复：使用正确的启动方式
-        navAdd.setOnClickListener {
-            showPublishMenu(it)
-        }
-
+        // 默认选中首页
         selectBottomNavItem(0)
     }
 
     private fun selectBottomNavItem(index: Int) {
-        if (currentNavIndex == index) return
+        if (currentNavIndex == index) return // 如果点击的是当前选中项，不做处理
 
         currentNavIndex = index
         updateBottomNavigationUI()
 
+        // 根据选中的导航项执行对应操作
         when (index) {
             0 -> {
+                // 首页 - 显示主要内容
                 Toast.makeText(this, "首页", Toast.LENGTH_SHORT).show()
+                // 这里可以切换到首页Fragment或重置ViewPager状态
             }
             1 -> {
+                // 视频/播放
                 Toast.makeText(this, "视频", Toast.LENGTH_SHORT).show()
+                // TODO: 启动视频页面或Fragment
             }
             2 -> {
+                // 搜索/发现
                 Toast.makeText(this, "发现", Toast.LENGTH_SHORT).show()
+                // TODO: 启动搜索页面或Fragment
             }
             3 -> {
+                // 消息
                 Toast.makeText(this, "消息", Toast.LENGTH_SHORT).show()
+                // TODO: 启动消息页面或Fragment
             }
             4 -> {
+                // 个人中心
                 Toast.makeText(this, "我的", Toast.LENGTH_SHORT).show()
+                // TODO: 启动个人中心页面或Fragment
             }
         }
     }
@@ -177,9 +162,11 @@ class MainActivity : AppCompatActivity() {
 
         for (i in navItems.indices) {
             if (i == currentNavIndex) {
+                // 选中状态：黑色
                 navItems[i].setColorFilter(ContextCompat.getColor(this, android.R.color.black))
                 navItems[i].tag = "selected"
             } else {
+                // 未选中状态：灰色
                 navItems[i].setColorFilter(ContextCompat.getColor(this, android.R.color.darker_gray))
                 navItems[i].tag = "unselected"
             }
@@ -192,6 +179,7 @@ class MainActivity : AppCompatActivity() {
 
         when (position) {
             0 -> {
+                // 推荐页面
                 tvRecommend.setTextColor(ContextCompat.getColor(this, android.R.color.black))
                 tvRecommend.textSize = 18f
                 tvRecommend.paint.isFakeBoldText = true
@@ -201,6 +189,7 @@ class MainActivity : AppCompatActivity() {
                 tvFollow.paint.isFakeBoldText = false
             }
             1 -> {
+                // 关注页面
                 tvFollow.setTextColor(ContextCompat.getColor(this, android.R.color.black))
                 tvFollow.textSize = 18f
                 tvFollow.paint.isFakeBoldText = true
@@ -215,86 +204,19 @@ class MainActivity : AppCompatActivity() {
     private fun observeViewModel() {
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
-                Log.d("MainActivity", "UI State updated: ${state.posts.size} posts, loading: ${state.isLoading}")
                 // 处理状态更新
             }
         }
-
-        // 观察Toast消息
-        viewModel.toastMessage.observe(this) { message ->
-            Log.d("MainActivity", "Toast message: $message")
-            if (message.isNotEmpty()) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-                // 清除消息避免重复显示
-                viewModel.clearToastMessage()
-            }
-        }
     }
 
+    // 可选：添加返回键处理，防止意外退出
     override fun onBackPressed() {
-        if (publishPopup?.isShowing == true) {
-            publishPopup?.dismiss()
-            return
-        }
-
         if (currentNavIndex != 0) {
+            // 如果不在首页，返回首页
             selectBottomNavItem(0)
         } else {
+            // 在首页则正常退出
             super.onBackPressed()
         }
-    }
-
-    private fun showPublishMenu(anchor: View) {
-        if (publishPopup?.isShowing == true) {
-            return
-        }
-
-        val contentView = this.layoutInflater.inflate(R.layout.popup_publish_menu, null, false)
-
-        contentView.findViewById<View>(R.id.ll_write_weibo).setOnClickListener {
-            publishPopup?.dismiss()
-            // 修复：使用正确的启动方式
-            writePostLauncher.launch(Intent(this, WritePostActivity::class.java))
-        }
-
-        contentView.findViewById<View>(R.id.ll_album).setOnClickListener {
-            Toast.makeText(this, "相册", Toast.LENGTH_SHORT).show()
-            publishPopup?.dismiss()
-        }
-
-        contentView.findViewById<View>(R.id.ll_check_in).setOnClickListener {
-            Toast.makeText(this, "签到/点评", Toast.LENGTH_SHORT).show()
-            publishPopup?.dismiss()
-        }
-
-        contentView.findViewById<View>(R.id.ll_live).setOnClickListener {
-            Toast.makeText(this, "直播", Toast.LENGTH_SHORT).show()
-            publishPopup?.dismiss()
-        }
-
-        publishPopup = PopupWindow(
-            contentView,
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            true
-        )
-
-        publishPopup?.animationStyle = R.style.PopupAnimation
-        publishPopup?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        publishPopup?.isOutsideTouchable = true
-
-        publishPopup?.setOnDismissListener {
-            val window = this.window
-            val lp = window.attributes
-            lp.alpha = 1.0f
-            window.attributes = lp
-        }
-
-        val window = this.window
-        val lp = window.attributes
-        lp.alpha = 0.7f
-        window.attributes = lp
-
-        publishPopup?.showAtLocation(anchor.rootView, android.view.Gravity.BOTTOM, 0, 0)
     }
 }

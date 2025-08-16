@@ -8,12 +8,6 @@ android {
     namespace = "com.example.weiboxx"
     compileSdk = 35
 
-    buildFeatures {
-        viewBinding =true
-    }
-    kapt {
-        correctErrorTypes =true
-    }
     defaultConfig {
         applicationId = "com.example.weiboxx"
         minSdk = 33
@@ -65,16 +59,10 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.room:room-rxjava2:2.6.1")
-
     kapt("androidx.room:room-compiler:2.6.1")
 
     // 测试
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-
-    //图片
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
-    kapt ("com.github.bumptech.glide:compiler:4.15.1")
-
 }
