@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:text="完善资料"
             android:textSize="14sp"
-            android:textColor="#FAB001"
+            android:textColor="@color/orange"
             android:background="@drawable/shape_stroke_orange"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"

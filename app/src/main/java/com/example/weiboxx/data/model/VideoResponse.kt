@@ -22,8 +22,6 @@ data class VideoFile(
 )
 
 data class User(
-    val id2: String,
-    val id1: String,
     val id: Int,
     val name: String,
     val url: String

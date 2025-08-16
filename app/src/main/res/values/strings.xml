@@ -3,30 +3,4 @@
     <string name="some_id">随时随地\n 发现新鲜事！</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <!-- 消息页面相关字符串 -->
-    <string name="search_hint">搜索聊天记录、群号</string>
-    <string name="message_at_me">/@我的</string>
-    <string name="message_comment">评论</string>
-    <string name="message_like">赞</string>
-    <string name="message_news">新浪新闻</string>
-    <string name="message_notification">服务通知</string>
-    <string name="message_group">群推荐</string>
-    <string name="message_live">微博直播</string>
-    <string name="message_story">微博小秘书</string>
-    <string name="message_school">桂林电子科技大学</string>
-
-    <!-- 消息内容 -->
-    <string name="news_content">普京特朗普会晤未达成协议！</string>
-    <string name="notification_content">超话社区：校友发帖啦！</string>
-    <string name="group_content">加入感兴趣的粉丝群，开启热聊模式</string>
-    <string name="live_content">感谢关注微博直播！</string>
-    <string name="story_content">参加高考作文大赛，赢现金红包</string>
-    <string name="school_content">欢迎关注桂林电子科技大学，需要咨询...</string>
-
-    <!-- 其他 -->
-    <string name="loading">加载中...</string>
-    <string name="load_failed">加载失败</string>
-    <string name="no_messages">暂无消息</string>
-    <string name="search_no_results">未找到相关消息</string>
 </resources>
