@@ -6,5 +6,5 @@
         android:left="5dp"
         android:right="5dp"
         android:top="5dp" />
-    <solid android:color="@android:color/holo_red_light" />
+    <solid android:color="#E96A1F" />
 </shape>

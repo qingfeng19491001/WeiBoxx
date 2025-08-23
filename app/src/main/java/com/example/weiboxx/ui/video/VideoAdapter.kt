@@ -33,7 +33,6 @@ class VideoAdapter(
             // 设置文本内容
             tvUsername.text = "@${video.username}"
             tvDescription.text = video.description
-            tvMusicName.text = video.musicName
 
             // 设置统计数据
             tvLikeCount.text = formatCount(video.likeCount)
@@ -73,7 +72,7 @@ class VideoAdapter(
         val videoPlayer: JzvdStd = itemView.findViewById(R.id.videoplayer)
         val tvUsername: TextView = itemView.findViewById(R.id.tv_username)
         val tvDescription: TextView = itemView.findViewById(R.id.tv_description)
-        val tvMusicName: TextView = itemView.findViewById(R.id.tv_music_name)
+
         val tvLikeCount: TextView = itemView.findViewById(R.id.tv_like_count)
         val tvCommentCount: TextView = itemView.findViewById(R.id.tv_comment)
         val tvShareCount: TextView = itemView.findViewById(R.id.tv_share_count)
