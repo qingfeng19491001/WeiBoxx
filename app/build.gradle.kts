@@ -2,6 +2,8 @@ plugins {
     id("kotlin-kapt")
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+
+    id("com.mob.sdk")
 }
 
 android {
@@ -42,6 +44,8 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.browser:browser:1.4.0")
+
     // Glide 图片加载库
     implementation ("com.github.bumptech.glide:glide:4.14.2")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
@@ -78,4 +82,10 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+}
+
+MobSDK {
+    appKey("3bcc70f1dc17c")
+    appSecret("8e6943d8696385471974dccfeb5f912c")
+    SMSSDK(closureOf<Any> { })
 }

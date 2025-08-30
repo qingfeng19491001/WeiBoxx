@@ -6,8 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:usesCleartextTraffic="true"
-
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -16,25 +14,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity android:name=".ui.login.SMScodeLogin.Smscoded"
-            android:exported="true"
-            />
-        <activity android:name="com.example.myapplication.CenterActivity"
-            android:exported="true"
-            />
+
+        <activity
+            android:name="com.example.weiboxx.ui.mine.CenterActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.video.VideoActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.welcome.WelcomeActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.login.PasswordLoginActivity"
             android:exported="true"
-            >
+            />
+        <activity
+            android:name=".ui.login.SmsLoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

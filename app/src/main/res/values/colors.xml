@@ -13,4 +13,6 @@
     <color name="gray_500">#9E9E9E</color>
     <color name="gray_200">#EEEEEE</color>
 
+    <color name="like_color">#FF6B6B</color>
+    <color name="follow_text_color">#4A90E2</color>
 </resources>

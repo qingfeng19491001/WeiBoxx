@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.weiboxx.ui.mine
 
 import android.app.AlertDialog
 import android.os.Bundle
