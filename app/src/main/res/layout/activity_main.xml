@@ -196,75 +196,24 @@
         android:layout_height="1dp"
         android:background="@android:color/darker_gray" />
 
-    <!-- ViewPager2 用于切换页面 -->
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
+    <!-- 主内容区域 - 用于显示不同的Fragment -->
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+        
+        <!-- ViewPager2 只用于首页的推荐和关注切换 -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </FrameLayout>
 
-    <!-- 底部导航栏 -->
-    <LinearLayout
+    <!-- 引入底部导航栏布局 -->
+    <include
+        layout="@layout/layout_bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:background="@android:color/white"
-        android:elevation="4dp">
-
-        <!-- 首页图标 - 默认选中状态 -->
-        <ImageView
-            android:id="@+id/iv_nav_home"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_home"
-            android:scaleType="center"
-            android:background="?selectableItemBackground"
-            android:tag="selected"
-            app:tint="@android:color/black" />
-
-        <ImageView
-            android:id="@+id/iv_nav_play"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_video"
-            android:scaleType="center"
-            android:background="?selectableItemBackground"
-            android:tag="unselected"
-            app:tint="@android:color/darker_gray" />
-
-        <ImageView
-            android:id="@+id/iv_nav_search"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_find"
-            android:scaleType="center"
-            android:background="?selectableItemBackground"
-            android:tag="unselected"
-            app:tint="@android:color/darker_gray" />
-
-        <ImageView
-            android:id="@+id/iv_nav_mail"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_message"
-            android:scaleType="center"
-            android:background="?selectableItemBackground"
-            android:tag="unselected"
-            app:tint="@android:color/darker_gray" />
-
-        <ImageView
-            android:id="@+id/iv_nav_person"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_mine"
-            android:scaleType="center"
-            android:background="?selectableItemBackground"
-            android:tag="unselected"
-            app:tint="@android:color/darker_gray" />
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 </LinearLayout>
