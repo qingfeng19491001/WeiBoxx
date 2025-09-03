@@ -1,9 +1,10 @@
-package com.example.weiboxx.ui
+package com.example.weiboxx.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.weiboxx.data.repository.PostRepository
 import com.example.weiboxx.data.repository.PostRepositoryImpl
+import com.example.weiboxx.viewmodel.MainViewModel
 
 class MainViewModelFactory(private val repository: PostRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

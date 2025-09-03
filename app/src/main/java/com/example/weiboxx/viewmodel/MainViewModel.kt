@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 /**
  * 主页面ViewModel，负责管理UI状态
  */
-class MainViewModel : ViewModel() {
+class MainViewModel(private val repository: com.example.weiboxx.data.repository.PostRepositoryImpl) : ViewModel() {
     
     // 当前选中的顶部标签（推荐/关注）
     private val _currentTab = MutableLiveData<Int>(0)

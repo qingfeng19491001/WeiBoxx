@@ -6,8 +6,8 @@ import androidx.core.content.ContextCompat
 import com.example.weiboxx.data.repository.PostRepositoryImpl
 import com.example.weiboxx.database.AppDatabase
 import com.example.weiboxx.network.ApiService
-import com.example.weiboxx.ui.MainViewModel
-import com.example.weiboxx.ui.MainViewModelFactory
+import com.example.weiboxx.viewmodel.MainViewModel
+import com.example.weiboxx.viewmodel.MainViewModelFactory
 import com.example.weiboxx.ui.base.BaseActivity
 import com.example.weiboxx.ui.discover.DiscoverFragment
 import com.example.weiboxx.ui.home.FollowFragment

@@ -39,14 +39,15 @@ class VideoFragment : Fragment() {
         // 添加模拟数据
         for (i in 1..10) {
             val video = VideoBean(
-                id = "video_$i",
-                title = "视频标题 $i",
-                coverUrl = "https://example.com/cover_$i.jpg",
                 videoUrl = "https://example.com/video_$i.mp4",
-                authorName = "作者 $i",
-                likeCount = (i * 1000).toString(),
-                commentCount = (i * 100).toString(),
-                shareCount = (i * 50).toString()
+                coverUrl = "https://example.com/cover_$i.jpg",
+                username = "作者 $i",
+                description = "视频标题 $i",
+                musicName = "原创音乐 $i",
+                avatarUrl = "https://example.com/avatar_$i.jpg",
+                likeCount = i * 1000,
+                commentCount = i * 100,
+                shareCount = i * 50
             )
             videoList.add(video)
         }
