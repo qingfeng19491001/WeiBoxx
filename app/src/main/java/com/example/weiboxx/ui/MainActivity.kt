@@ -192,6 +192,15 @@ class MainActivity : BaseActivity() {
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
                 // 处理状态更新
+                // 这里可以根据state更新UI
+                // 例如：更新列表、显示加载状态等
+            }
+        }
+        
+        // 观察Toast消息
+        viewModel.toastMessage.observe(this) { message ->
+            if (message.isNotEmpty()) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
             }
         }
     }
