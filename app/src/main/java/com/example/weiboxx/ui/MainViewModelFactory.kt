@@ -1,17 +1,18 @@
-package com.example.weiboxx.viewmodel
+package com.example.weiboxx.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.weiboxx.data.repository.PostRepository
 import com.example.weiboxx.data.repository.PostRepositoryImpl
-import com.example.weiboxx.viewmodel.MainViewModel
 
-class MainViewModelFactory(private val repository: PostRepository) : ViewModelProvider.Factory {
+class MainViewModelFactory(
+    private val repository: PostRepositoryImpl
+) : ViewModelProvider.Factory {
+
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return MainViewModel(repository as PostRepositoryImpl) as T
+            return MainViewModel(repository) as T
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
+        throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 }

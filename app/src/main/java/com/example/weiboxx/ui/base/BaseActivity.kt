@@ -2,10 +2,8 @@ package com.example.weiboxx.ui.base
 
 import android.os.Bundle
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.example.weiboxx.R
 
 /**
@@ -25,16 +23,16 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutResId())
-        
+
         initBottomNavigation()
         setupBottomNavigation()
     }
-    
+
     /**
      * 获取布局资源ID
      */
     abstract fun getLayoutResId(): Int
-    
+
     /**
      * 初始化底部导航栏视图
      */
@@ -101,11 +99,11 @@ abstract class BaseActivity : AppCompatActivity() {
      * @param index 要切换到的Fragment索引
      */
     abstract fun switchFragment(index: Int)
-    
+
     /**
      * 获取当前选中的导航索引
      */
-    fun getCurrentNavIndex(): Int {
+    protected fun getNavIndex(): Int {
         return currentNavIndex
     }
 }

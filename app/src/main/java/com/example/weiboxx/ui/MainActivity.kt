@@ -1,13 +1,18 @@
 package com.example.weiboxx.ui
 
+import android.os.Bundle
 import android.widget.TextView
-import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
+import androidx.viewpager2.widget.ViewPager2
+import com.example.weiboxx.R
 import com.example.weiboxx.data.repository.PostRepositoryImpl
 import com.example.weiboxx.database.AppDatabase
 import com.example.weiboxx.network.ApiService
-import com.example.weiboxx.viewmodel.MainViewModel
-import com.example.weiboxx.viewmodel.MainViewModelFactory
 import com.example.weiboxx.ui.base.BaseActivity
 import com.example.weiboxx.ui.discover.DiscoverFragment
 import com.example.weiboxx.ui.home.FollowFragment
@@ -16,38 +21,29 @@ import com.example.weiboxx.ui.home.ViewPagerAdapter
 import com.example.weiboxx.ui.message.MessageFragment
 import com.example.weiboxx.ui.profile.ProfileFragment
 import com.example.weiboxx.ui.video.VideoFragment
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import android.os.Bundle
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
-import com.example.weiboxx.R
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
-import androidx.viewpager2.widget.ViewPager2
-import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var viewPager: ViewPager2
-    
+
     // 所有Fragment
     private lateinit var homeFragment: PostListFragment
     private lateinit var videoFragment: VideoFragment
     private lateinit var discoverFragment: DiscoverFragment
     private lateinit var messageFragment: MessageFragment
     private lateinit var profileFragment: ProfileFragment
-    
+
     // 当前显示的Fragment
     private var currentFragment: Fragment? = null
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_main
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,6 +52,7 @@ class MainActivity : BaseActivity() {
         setupTopNavigation()
         initFragments()
         observeViewModel()
+        setupBackPressHandler()
     }
 
     private fun initViewModel() {
@@ -80,7 +77,7 @@ class MainActivity : BaseActivity() {
         viewPager = findViewById(R.id.viewPager)
 
         // 设置ViewPager适配器 - 只用于首页的推荐和关注切换
-        val fragments = listOf(
+        val fragments = listOf<Fragment>(
             PostListFragment(),
             FollowFragment()
         )
@@ -115,11 +112,11 @@ class MainActivity : BaseActivity() {
         discoverFragment = DiscoverFragment()
         messageFragment = MessageFragment()
         profileFragment = ProfileFragment()
-        
+
         // 默认显示首页
         switchFragment(0)
     }
-    
+
     override fun switchFragment(index: Int) {
         // 根据选中的导航项切换Fragment
         val targetFragment = when (index) {
@@ -130,17 +127,17 @@ class MainActivity : BaseActivity() {
             4 -> profileFragment
             else -> homeFragment
         }
-        
+
         // 如果当前已经显示该Fragment，不做处理
         if (currentFragment == targetFragment) return
-        
+
         val transaction = supportFragmentManager.beginTransaction()
-        
+
         // 隐藏当前Fragment
         currentFragment?.let {
             transaction.hide(it)
         }
-        
+
         // 如果目标Fragment已添加，则显示；否则添加并显示
         if (targetFragment.isAdded) {
             transaction.show(targetFragment)
@@ -148,14 +145,14 @@ class MainActivity : BaseActivity() {
             transaction.add(R.id.fragment_container, targetFragment)
             transaction.show(targetFragment)
         }
-        
+
         transaction.commit()
         currentFragment = targetFragment
-        
+
         // 更新ViewModel中的状态
-        viewModel.setCurrentBottomNav(index)
+        viewModel.switchBottomNav(index)
         if (index == 0) {
-            viewModel.setCurrentTab(viewPager.currentItem)
+            viewModel.switchTab(viewPager.currentItem)
         }
     }
 
@@ -189,30 +186,54 @@ class MainActivity : BaseActivity() {
     }
 
     private fun observeViewModel() {
+        // 观察 UI 状态
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
-                // 处理状态更新
-                // 这里可以根据state更新UI
-                // 例如：更新列表、显示加载状态等
+                // 可以在这里处理 loading、error 等状态
+                if (state.error != null) {
+                    // 处理错误状态
+                    // 比如显示错误提示
+                }
             }
         }
-        
-        // 观察Toast消息
+
+        // 观察 Toast 消息
         viewModel.toastMessage.observe(this) { message ->
-            if (message.isNotEmpty()) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            if (!message.isNullOrEmpty()) {
+                android.widget.Toast.makeText(this, message, android.widget.Toast.LENGTH_SHORT).show()
+                viewModel.clearToastMessage()
+            }
+        }
+
+        // 观察当前选中的底部导航
+        lifecycleScope.launch {
+            viewModel.selectedBottomNavIndex.collect { index ->
+                // 如果需要，可以在这里同步 UI 状态
+            }
+        }
+
+        // 观察当前选中的 tab
+        lifecycleScope.launch {
+            viewModel.currentTab.collect { tabIndex ->
+                if (currentNavIndex == 0) { // 直接使用父类的 protected 属性
+                    viewPager.currentItem = tabIndex
+                }
             }
         }
     }
 
-    // 可选：添加返回键处理，防止意外退出
-    override fun onBackPressed() {
-        if (currentNavIndex != 0) {
-            // 如果不在首页，返回首页
-            selectBottomNavItem(0)
-        } else {
-            // 在首页则正常退出
-            super.onBackPressed()
-        }
+    private fun setupBackPressHandler() {
+        // 现代化的返回键处理方式
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (currentNavIndex != 0) { // 直接使用父类的 protected 属性
+                    // 如果不在首页，返回首页
+                    selectBottomNavItem(0)
+                } else {
+                    // 在首页则正常退出
+                    finish()
+                }
+            }
+        })
     }
 }

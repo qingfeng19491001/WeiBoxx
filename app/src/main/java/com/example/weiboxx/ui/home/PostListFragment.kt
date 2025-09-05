@@ -46,7 +46,7 @@ class PostListFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerView)
         swipeRefresh = view.findViewById(R.id.swipeRefresh)
 
-        adapter = PostAdapter { postId, action ->
+        adapter = PostAdapter { postId: String, action: String ->
             when (action) {
                 "like" -> viewModel.likePost(postId)
                 "share" -> viewModel.sharePost(postId)
@@ -101,10 +101,10 @@ class PostListFragment : Fragment() {
             }
         }
 
-        // 添加：观察Toast消息
+        // 观察Toast消息
         viewModel.toastMessage.observe(viewLifecycleOwner) { message ->
-            if (message.isNotEmpty()) {
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            if (!message.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), message as CharSequence, Toast.LENGTH_SHORT).show()
             }
         }
     }
