@@ -360,4 +360,5 @@ class SmsLoginActivity : AppCompatActivity(), View.OnClickListener {
         eventHandler?.let { SMSSDK.unregisterEventHandler(it) }
         timer?.cancel()
     }
+
 }
