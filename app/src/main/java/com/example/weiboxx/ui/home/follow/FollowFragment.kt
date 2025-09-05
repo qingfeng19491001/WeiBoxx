@@ -1,4 +1,4 @@
-package com.example.weiboxx.ui.home
+package com.example.weiboxx.ui.home.follow
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import android.widget.FrameLayout
+import android.widget.TextView
 import com.example.weiboxx.R
 import com.example.weiboxx.database.entity.VideoBean
 
@@ -14,6 +16,7 @@ class VideoFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var videoAdapter: VideoAdapter
     private val videoList = mutableListOf<VideoBean>()
+    private lateinit var container: FrameLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,11 +31,13 @@ class VideoFragment : Fragment() {
         
         initViews(view)
         initMockData()
-        setupViewPager()
+        setupRecommend()
+        view.findViewById<TextView>(R.id.tv_video_recommend).setOnClickListener { setupRecommend() }
+        view.findViewById<TextView>(R.id.tv_video_featured).setOnClickListener { setupFeatured() }
     }
 
     private fun initViews(view: View) {
-        viewPager = view.findViewById(R.id.videoViewPager)
+        container = view.findViewById(R.id.video_container)
     }
 
     private fun initMockData() {
@@ -53,9 +58,18 @@ class VideoFragment : Fragment() {
         }
     }
 
-    private fun setupViewPager() {
+    private fun setupRecommend() {
+        viewPager = ViewPager2(requireContext())
+        viewPager.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        container.removeAllViews()
+        container.addView(viewPager)
         videoAdapter = VideoAdapter(requireContext(), videoList)
         viewPager.adapter = videoAdapter
         viewPager.orientation = ViewPager2.ORIENTATION_VERTICAL
+    }
+
+    private fun setupFeatured() {
+        // 简单复用推荐数据，实际可换为精选源
+        setupRecommend()
     }
 }

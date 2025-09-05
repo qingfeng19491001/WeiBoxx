@@ -1,13 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.video.VideoFragment">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/videoViewPager"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" />
-</FrameLayout>
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:id="@+id/tv_video_recommend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="推荐"
+            android:textSize="18sp"
+            android:textColor="#222222"
+            android:padding="8dp" />
+
+        <TextView
+            android:id="@+id/tv_video_featured"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="精选"
+            android:textSize="18sp"
+            android:textColor="#9AA4B2"
+            android:padding="8dp"
+            android:layout_marginStart="24dp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/video_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

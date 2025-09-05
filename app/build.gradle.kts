@@ -2,7 +2,6 @@ plugins {
     id("kotlin-kapt")
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-
     id("com.mob.sdk")
 }
 
@@ -38,21 +37,25 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    // 启用 ViewBinding
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 
 dependencies {
-    implementation ("androidx.browser:browser:1.4.0")
+    implementation("androidx.browser:browser:1.4.0")
 
     // Glide 图片加载库
-    implementation ("com.github.bumptech.glide:glide:4.14.2")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
+    implementation("com.github.bumptech.glide:glide:4.14.2")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
 
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 
     implementation("cn.jzvd:jiaozivideoplayer:7.7.0")
+
     //网络请求
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -66,6 +69,22 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.activity:activity-ktx:1.10.1")
 
+    // =====  关键的 Fragment 和 ViewModel 依赖 =====
+    // Fragment KTX - 这个是关键，提供 viewModels() 扩展函数
+    implementation("androidx.fragment:fragment-ktx:1.8.7")
+
+    // ViewModel 和 LiveData
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.8.7")
+
+    // RecyclerView
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+    // CardView
+    implementation("androidx.cardview:cardview:1.0.0")
+
     // Kotlin 协程
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
@@ -75,8 +94,11 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.room:room-rxjava2:2.6.1")
     implementation(libs.androidx.activity)
-//    implementation(libs.androidx.lifecycle.runtime.ktx)
     kapt("androidx.room:room-compiler:2.6.1")
+
+    // Navigation (可选，如果您需要导航组件)
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.5")
 
     // 测试
     testImplementation("junit:junit:4.13.2")

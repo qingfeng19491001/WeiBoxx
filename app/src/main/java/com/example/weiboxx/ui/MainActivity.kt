@@ -15,7 +15,7 @@ import com.example.weiboxx.database.AppDatabase
 import com.example.weiboxx.network.ApiService
 import com.example.weiboxx.ui.base.BaseActivity
 import com.example.weiboxx.ui.discover.DiscoverFragment
-import com.example.weiboxx.ui.home.FollowFragment
+import com.example.weiboxx.ui.home.follow.FollowFragment
 import com.example.weiboxx.ui.home.PostListFragment
 import com.example.weiboxx.ui.home.ViewPagerAdapter
 import com.example.weiboxx.ui.message.MessageFragment
@@ -151,6 +151,9 @@ class MainActivity : BaseActivity() {
 
         // 更新ViewModel中的状态
         viewModel.switchBottomNav(index)
+        // 首页显示顶部容器，其它页面隐藏
+        val homeTop = findViewById<android.view.View>(R.id.home_top_container)
+        homeTop.visibility = if (index == 0) android.view.View.VISIBLE else android.view.View.GONE
         if (index == 0) {
             viewModel.switchTab(viewPager.currentItem)
         }

@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#FFFFFFFF</color>
     <color name="colorAccent">#FF4081</color>
     <color name="gray">#CCCCCC</color>
     <color name="blue">#007AFF</color>
     <color name="dark_gray">#333333</color>
     <color name="light_gray">#999999</color>
-    <color name="background_gray">#F5F5F5</color>
     <color name="line_gray">#E0E0E0</color>
-    <color name="black">#FF000000</color>
     <color name="gray_600">#757575</color>
     <color name="gray_500">#9E9E9E</color>
     <color name="gray_200">#EEEEEE</color>
 
+    <color name="entertainment_orange">#FAB001</color>
+    <color name="hot_red">#FF6B6B</color>
     <color name="like_color">#FF6B6B</color>
     <color name="follow_text_color">#4A90E2</color>
+
+
+    <color name="orange">#FF6600</color>
+    <color name="gray_666">#666666</color>
+    <color name="gray_999">#999999</color>
+    <color name="gray_333">#333333</color>
+    <color name="background_gray">#F5F5F5</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="red">#FF3333</color>
+    <color name="transparent_black">#80000000</color>
 </resources>

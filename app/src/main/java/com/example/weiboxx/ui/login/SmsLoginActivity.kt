@@ -46,6 +46,8 @@ class SmsLoginActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var checkboxAgreement: CheckBox
     private lateinit var tvHelp: TextView
     private lateinit var user_agreement: TextView
+    private lateinit var tvCountryCode: TextView
+    private lateinit var llCountryCode: View
 
     //其他登录方式
     private lateinit var ivEmailLogin: ImageView
@@ -137,6 +139,8 @@ class SmsLoginActivity : AppCompatActivity(), View.OnClickListener {
         ivQQLogin = findViewById(R.id.ivQQLogin)
         ivQrLogin = findViewById(R.id.ivQrLogin)
         user_agreement=findViewById(R.id.user_agreement)
+        tvCountryCode = findViewById(R.id.tv_country_code)
+        llCountryCode = findViewById(R.id.ll_country_code)
         btnGetCode.setOnClickListener(this)
         btnLogin.setOnClickListener(this)
         tvHelp.setOnClickListener(this)
@@ -145,6 +149,7 @@ class SmsLoginActivity : AppCompatActivity(), View.OnClickListener {
         ivQQLogin.setOnClickListener(this)
         ivQrLogin.setOnClickListener(this)
         user_agreement.setOnClickListener(this)
+        llCountryCode.setOnClickListener(this)
     }
 
     private fun initSmsSDK() {
@@ -190,6 +195,15 @@ class SmsLoginActivity : AppCompatActivity(), View.OnClickListener {
             R.id.ivQQLogin -> Toast.makeText(this, "QQ登录", Toast.LENGTH_SHORT).show()
             R.id.ivQrLogin -> Toast.makeText(this, "二维码登录", Toast.LENGTH_SHORT).show()
             R.id.user_agreement -> openCustomTab(user_agreement_uri)
+            R.id.ll_country_code -> startActivityForResult(Intent(this, CountryPickerActivity::class.java), 1001)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1001 && resultCode == RESULT_OK && data != null) {
+            val code = data.getStringExtra("country_code") ?: return
+            tvCountryCode.text = "+$code"
         }
     }
 
