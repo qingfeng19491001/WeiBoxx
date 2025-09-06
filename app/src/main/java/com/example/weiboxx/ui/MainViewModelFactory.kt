@@ -3,6 +3,7 @@ package com.example.weiboxx.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.weiboxx.data.repository.PostRepositoryImpl
+import com.example.weiboxx.viewmodel.MainViewModel
 
 class MainViewModelFactory(
     private val repository: PostRepositoryImpl

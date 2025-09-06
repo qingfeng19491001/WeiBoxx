@@ -1,12 +1,13 @@
 package com.example.weiboxx.ui
 
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
+import androidx.activity.viewModels
+import kotlinx.lifecycle.lifecycleScope
 import androidx.room.Room
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weiboxx.R
@@ -21,14 +22,25 @@ import com.example.weiboxx.ui.home.ViewPagerAdapter
 import com.example.weiboxx.ui.message.MessageFragment
 import com.example.weiboxx.ui.profile.ProfileFragment
 import com.example.weiboxx.ui.video.VideoFragment
+import com.example.weiboxx.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : BaseActivity() {
 
-    private lateinit var viewModel: MainViewModel
-    private lateinit var viewPager: ViewPager2
+    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(PostRepositoryImpl(Retrofit.Builder()
+            .baseUrl("https://api.example.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService::class.java), 
+            Room.databaseBuilder(
+                this,
+                AppDatabase::class.java,
+                "weibo.db"
+            ).build().postDao(), 
+            this)) }
+    private lateinit var viewPager: androidx.viewpager2.widget.ViewPager2
 
     // 所有Fragment
     private lateinit var homeFragment: PostListFragment
@@ -56,21 +68,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initViewModel() {
-        val apiService = Retrofit.Builder()
-            .baseUrl("https://api.example.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
-
-        val postDao = Room.databaseBuilder(
-            this,
-            AppDatabase::class.java,
-            "weibo.db"
-        ).build().postDao()
-
-        val repository = PostRepositoryImpl(apiService, postDao, this)
-        val factory = MainViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
+        // ViewModel 已通过 viewModels 扩展函数初始化
     }
 
     private fun initViews() {
@@ -82,6 +80,9 @@ class MainActivity : BaseActivity() {
             FollowFragment()
         )
         viewPager.adapter = ViewPagerAdapter(this, fragments)
+        // 默认显示关注页面（索引为1）
+        viewPager.currentItem = 1
+        updateTopNavigation(1)
     }
 
     private fun setupTopNavigation() {
@@ -154,6 +155,10 @@ class MainActivity : BaseActivity() {
         // 首页显示顶部容器，其它页面隐藏
         val homeTop = findViewById<android.view.View>(R.id.home_top_container)
         homeTop.visibility = if (index == 0) android.view.View.VISIBLE else android.view.View.GONE
+        
+        // 首页时显示ViewPager，其他页面隐藏ViewPager
+        viewPager.visibility = if (index == 0) android.view.View.VISIBLE else android.view.View.GONE
+        
         if (index == 0) {
             viewModel.switchTab(viewPager.currentItem)
         }
@@ -163,27 +168,39 @@ class MainActivity : BaseActivity() {
         // 更新顶部导航栏UI
         val tvRecommend = findViewById<TextView>(R.id.tv_recommend)
         val tvFollow = findViewById<TextView>(R.id.tv_follow)
+        val indicatorRecommend = findViewById<View>(R.id.indicator_recommend)
+        val indicatorFollow = findViewById<View>(R.id.indicator_follow)
 
         when (position) {
             0 -> {
                 // 推荐页面
-                tvRecommend.setTextColor(ContextCompat.getColor(this, android.R.color.black))
+                // 更新文本样式
+                tvRecommend.setTextColor(ContextCompat.getColor(this, R.color.orange))
                 tvRecommend.textSize = 18f
                 tvRecommend.paint.isFakeBoldText = true
 
                 tvFollow.setTextColor(ContextCompat.getColor(this, android.R.color.darker_gray))
                 tvFollow.textSize = 16f
                 tvFollow.paint.isFakeBoldText = false
+                
+                // 更新指示器状态
+                indicatorRecommend.visibility = View.VISIBLE
+                indicatorFollow.visibility = View.INVISIBLE
             }
             1 -> {
                 // 关注页面
-                tvFollow.setTextColor(ContextCompat.getColor(this, android.R.color.black))
+                // 更新文本样式
+                tvFollow.setTextColor(ContextCompat.getColor(this, R.color.orange))
                 tvFollow.textSize = 18f
                 tvFollow.paint.isFakeBoldText = true
 
                 tvRecommend.setTextColor(ContextCompat.getColor(this, android.R.color.darker_gray))
                 tvRecommend.textSize = 16f
                 tvRecommend.paint.isFakeBoldText = false
+                
+                // 更新指示器状态
+                indicatorRecommend.visibility = View.INVISIBLE
+                indicatorFollow.visibility = View.VISIBLE
             }
         }
     }

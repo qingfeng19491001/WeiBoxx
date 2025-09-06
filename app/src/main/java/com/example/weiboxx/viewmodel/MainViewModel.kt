@@ -1,4 +1,4 @@
-package com.example.weiboxx.ui
+package com.example.weiboxx.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData

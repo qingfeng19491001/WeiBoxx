@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weiboxx.R
@@ -17,8 +17,8 @@ class DiscoverFragment : Fragment() {
     private var _binding: FragmentDiscoverBinding? = null
     private val binding get() = _binding!!
 
-    // 使用 ViewModelProvider 替代 viewModels()
-    private lateinit var viewModel: DiscoverViewModel
+    // 使用 viewModels() 扩展函数
+    private val viewModel: DiscoverViewModel by viewModels()
     private lateinit var hotTopicAdapter: HotTopicAdapter
 
     override fun onCreateView(
@@ -28,8 +28,7 @@ class DiscoverFragment : Fragment() {
     ): View {
         _binding = FragmentDiscoverBinding.inflate(inflater, container, false)
 
-        // 初始化 ViewModel
-        viewModel = ViewModelProvider(this)[DiscoverViewModel::class.java]
+        // ViewModel 已通过 viewModels() 扩展函数初始化
 
         return binding.root
     }

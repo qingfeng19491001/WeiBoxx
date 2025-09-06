@@ -79,10 +79,10 @@
                         android:id="@+id/indicator_follow"
                         android:layout_width="40dp"
                         android:layout_height="6dp"
-                        android:background="#FFA500"
+                        android:background="@drawable/indicator_chosen"
                         android:layout_gravity="bottom|center_horizontal"
                         android:layout_marginBottom="8dp"
-                        android:visibility="invisible" />
+                        android:visibility="visible" />
 
                     <TextView
                         android:id="@+id/tv_follow"
@@ -217,7 +217,7 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </FrameLayout>
 
     <!-- 引入底部导航栏布局 -->

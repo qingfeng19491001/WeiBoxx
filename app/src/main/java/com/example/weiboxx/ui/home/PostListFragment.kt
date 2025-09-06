@@ -7,19 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.weiboxx.R
-import com.example.weiboxx.ui.MainViewModel
+import com.example.weiboxx.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 
 class PostListFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var adapter: PostAdapter
@@ -84,7 +84,7 @@ class PostListFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        // ViewModel 已通过 activityViewModels() 扩展函数初始化
     }
 
     private fun observeViewModel() {
