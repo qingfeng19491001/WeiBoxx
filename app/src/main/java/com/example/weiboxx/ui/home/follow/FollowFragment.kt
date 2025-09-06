@@ -119,7 +119,7 @@ class FollowFragment : Fragment() {
         
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyPostViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_my_post, parent, false)
+                .inflate(R.layout.item_post, parent, false)
             return MyPostViewHolder(view)
         }
         
@@ -136,10 +136,10 @@ class FollowFragment : Fragment() {
             private val tvSource: TextView = itemView.findViewById(R.id.tv_source)
             private val tvLikeCount: TextView = itemView.findViewById(R.id.tv_like_count)
             private val tvCommentCount: TextView = itemView.findViewById(R.id.tv_comment_count)
-            private val tvForwardCount: TextView = itemView.findViewById(R.id.tv_forward_count)
+            private val tvShareCount: TextView = itemView.findViewById(R.id.tv_share_count)
             private val llLike = itemView.findViewById<View>(R.id.ll_like)
             private val llComment = itemView.findViewById<View>(R.id.ll_comment)
-            private val llForward = itemView.findViewById<View>(R.id.ll_forward)
+            private val llShare = itemView.findViewById<View>(R.id.ll_share)
             
             init {
                 // 设置点击事件
@@ -157,7 +157,7 @@ class FollowFragment : Fragment() {
                     }
                 }
                 
-                llForward.setOnClickListener {
+                llShare.setOnClickListener {
                     val position = adapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         listener?.onForwardClick(position)
@@ -172,9 +172,19 @@ class FollowFragment : Fragment() {
                 tvSource.text = post.source
                 
                 // 设置点赞、评论、转发数量
-                tvLikeCount.text = if (post.likeCount > 0) post.likeCount.toString() else "点赞"
-                tvCommentCount.text = if (post.commentCount > 0) post.commentCount.toString() else "评论"
-                tvForwardCount.text = if (post.forwardCount > 0) post.forwardCount.toString() else "转发"
+                tvLikeCount.text = formatCount(post.likeCount)
+                tvCommentCount.text = formatCount(post.commentCount)
+                tvShareCount.text = formatCount(post.forwardCount)
+            }
+            
+            private fun formatCount(count: Int): String {
+                return if (count >= 10000) {
+                    String.format("%.1f万", count / 10000.0)
+                } else if (count > 0) {
+                    count.toString()
+                } else {
+                    "0"
+                }
             }
         }
     }

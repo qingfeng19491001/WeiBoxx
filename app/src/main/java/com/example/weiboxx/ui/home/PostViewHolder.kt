@@ -27,7 +27,7 @@ class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val llLike: View = itemView.findViewById(R.id.ll_like)
     private val llComment: View = itemView.findViewById(R.id.ll_comment)
     private val llShare: View = itemView.findViewById(R.id.ll_share)
-//    private val ivLike: ImageView = llLike.findViewById(R.id.iv_like) ?: ImageView(itemView.context)
+    private val ivLike: ImageView = llLike.findViewById(R.id.iv_like)
 
     private var isLiked = false
     private var currentPost: Post? = null
@@ -47,9 +47,9 @@ class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 //            .into(ivAvatar)
 
         tvContent.text = post.content
-        tvLikeCount.text = post.likes.toString()
-        tvCommentCount.text = post.comments.toString()
-        tvShareCount.text = post.shares.toString()
+        tvLikeCount.text = formatCount(post.likes)
+        tvCommentCount.text = formatCount(post.comments)
+        tvShareCount.text = formatCount(post.shares)
 
         llLike.setOnClickListener {
             animateLike()
@@ -64,7 +64,46 @@ class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
     }
 
-    private fun animateLike() { /* 同上 */ }
-    private fun animateShare() { /* 同上 */ }
-    private fun copyTextToClipboard(text: String) { /* 同上 */ }
+    private fun animateLike() {
+        isLiked = !isLiked
+        val colorRes = if (isLiked) R.color.like_red else R.color.gray
+        tvLikeCount.setTextColor(ContextCompat.getColor(itemView.context, colorRes))
+        ivLike.setColorFilter(ContextCompat.getColor(itemView.context, colorRes))
+        
+        // 点赞动画
+        val scaleX = ObjectAnimator.ofFloat(ivLike, "scaleX", 1f, 1.2f, 1f)
+        val scaleY = ObjectAnimator.ofFloat(ivLike, "scaleY", 1f, 1.2f, 1f)
+        scaleX.duration = 300
+        scaleY.duration = 300
+        scaleX.start()
+        scaleY.start()
+        
+        // 更新点赞数显示
+        val currentLikes = currentPost?.likes ?: 0
+        val newLikes = if (isLiked) currentLikes + 1 else currentLikes - 1
+        tvLikeCount.text = newLikes.toString()
+        // 注意：实际的Post对象更新应该在ViewModel中处理
+    }
+    
+    private fun animateShare() {
+        // 分享按钮动画
+        val rotation = ObjectAnimator.ofFloat(llShare, "rotation", 0f, 360f)
+        rotation.duration = 500
+        rotation.start()
+    }
+    
+    private fun copyTextToClipboard(text: String) {
+        val clipboardManager = itemView.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText("微博内容", text)
+        clipboardManager.setPrimaryClip(clipData)
+        Toast.makeText(itemView.context, "内容已复制到剪贴板", Toast.LENGTH_SHORT).show()
+    }
+    
+    private fun formatCount(count: Int): String {
+        return if (count >= 10000) {
+            String.format("%.1f万", count / 10000.0)
+        } else {
+            count.toString()
+        }
+    }
 }
