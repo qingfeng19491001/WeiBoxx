@@ -3,6 +3,14 @@ package com.example.weiboxx.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.ImageButton
+import android.widget.PopupWindow
+import android.view.LayoutInflater
+import android.widget.LinearLayout
+import android.content.Intent
+import android.animation.ObjectAnimator
+import android.animation.AnimatorSet
+import android.animation.ValueAnimator
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -83,6 +91,12 @@ class MainActivity : BaseActivity() {
         // 默认显示关注页面（索引为1）
         viewPager.currentItem = 1
         updateTopNavigation(1)
+        
+        // 设置发布按钮点击事件
+        setupPublishButton()
+        
+        // 设置顶部工具栏按钮点击事件
+        setupToolbarButtons()
     }
 
     private fun setupTopNavigation() {
@@ -104,6 +118,70 @@ class MainActivity : BaseActivity() {
                 updateTopNavigation(position)
             }
         })
+    }
+    
+    private fun setupToolbarButtons() {
+        // 编辑按钮点击事件
+        findViewById<android.widget.ImageView>(R.id.iv_edit).setOnClickListener {
+            // 跳转到编辑页面或显示编辑功能
+            android.widget.Toast.makeText(this, "编辑功能", android.widget.Toast.LENGTH_SHORT).show()
+        }
+        
+        // 红包按钮点击事件
+        findViewById<android.widget.ImageView>(R.id.iv_home).setOnClickListener {
+            // 显示红包功能
+            android.widget.Toast.makeText(this, "红包功能", android.widget.Toast.LENGTH_SHORT).show()
+        }
+        
+        // 添加按钮点击事件
+        findViewById<android.widget.ImageView>(R.id.iv_add).setOnClickListener {
+            // 显示添加功能菜单
+            showAddMenu(it)
+        }
+    }
+    
+    private fun showAddMenu(anchorView: android.view.View) {
+        // 创建弹窗布局
+        val inflater = LayoutInflater.from(this)
+        val popupView = inflater.inflate(R.layout.popup_add_menu, null)
+        
+        // 创建PopupWindow
+        val popupWindow = PopupWindow(
+            popupView,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            true
+        )
+        
+        // 设置背景
+        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.popup_background))
+        popupWindow.elevation = 8f
+        
+        // 设置菜单项点击事件
+        popupView.findViewById<LinearLayout>(R.id.ll_scan).setOnClickListener {
+            android.widget.Toast.makeText(this, "扫一扫", android.widget.Toast.LENGTH_SHORT).show()
+            popupWindow.dismiss()
+        }
+        
+        popupView.findViewById<LinearLayout>(R.id.ll_search).setOnClickListener {
+            android.widget.Toast.makeText(this, "搜索", android.widget.Toast.LENGTH_SHORT).show()
+            popupWindow.dismiss()
+        }
+        
+        popupView.findViewById<LinearLayout>(R.id.ll_message).setOnClickListener {
+            // 跳转到消息页面
+            selectBottomNavItem(3)
+            popupWindow.dismiss()
+        }
+        
+        // 显示弹窗
+        val location = IntArray(2)
+        anchorView.getLocationOnScreen(location)
+        popupWindow.showAsDropDown(
+            anchorView,
+            -popupWindow.contentView.measuredWidth + anchorView.width,
+            0
+        )
     }
 
     private fun initFragments() {
@@ -171,38 +249,119 @@ class MainActivity : BaseActivity() {
         val indicatorRecommend = findViewById<View>(R.id.indicator_recommend)
         val indicatorFollow = findViewById<View>(R.id.indicator_follow)
 
+        // 创建动画集合
+        val animatorSet = AnimatorSet()
+        val animators = mutableListOf<ObjectAnimator>()
+
         when (position) {
             0 -> {
                 // 推荐页面
-                // 更新文本样式
-                tvRecommend.setTextColor(ContextCompat.getColor(this, R.color.orange))
-                tvRecommend.textSize = 18f
+                // 文本颜色动画
+                val recommendColorAnimator = ValueAnimator.ofArgb(
+                    tvRecommend.currentTextColor,
+                    ContextCompat.getColor(this, R.color.orange)
+                )
+                recommendColorAnimator.addUpdateListener { animator ->
+                    tvRecommend.setTextColor(animator.animatedValue as Int)
+                }
+                
+                val followColorAnimator = ValueAnimator.ofArgb(
+                    tvFollow.currentTextColor,
+                    ContextCompat.getColor(this, android.R.color.darker_gray)
+                )
+                followColorAnimator.addUpdateListener { animator ->
+                    tvFollow.setTextColor(animator.animatedValue as Int)
+                }
+                
+                // 文本大小动画
+                val recommendSizeAnimator = ValueAnimator.ofFloat(tvRecommend.textSize, 18f * resources.displayMetrics.scaledDensity)
+                recommendSizeAnimator.addUpdateListener { animator ->
+                    tvRecommend.textSize = (animator.animatedValue as Float) / resources.displayMetrics.scaledDensity
+                }
+                
+                val followSizeAnimator = ValueAnimator.ofFloat(tvFollow.textSize, 16f * resources.displayMetrics.scaledDensity)
+                followSizeAnimator.addUpdateListener { animator ->
+                    tvFollow.textSize = (animator.animatedValue as Float) / resources.displayMetrics.scaledDensity
+                }
+                
+                // 指示器透明度动画
+                val recommendIndicatorAnimator = ObjectAnimator.ofFloat(indicatorRecommend, "alpha", indicatorRecommend.alpha, 1f)
+                val followIndicatorAnimator = ObjectAnimator.ofFloat(indicatorFollow, "alpha", indicatorFollow.alpha, 0f)
+                
+                // 设置文本加粗
                 tvRecommend.paint.isFakeBoldText = true
-
-                tvFollow.setTextColor(ContextCompat.getColor(this, android.R.color.darker_gray))
-                tvFollow.textSize = 16f
                 tvFollow.paint.isFakeBoldText = false
                 
-                // 更新指示器状态
+                // 更新指示器可见性
                 indicatorRecommend.visibility = View.VISIBLE
-                indicatorFollow.visibility = View.INVISIBLE
+                indicatorFollow.visibility = View.VISIBLE
+                
+                animators.addAll(listOf(
+                    recommendColorAnimator as ObjectAnimator,
+                    followColorAnimator as ObjectAnimator,
+                    recommendSizeAnimator as ObjectAnimator,
+                    followSizeAnimator as ObjectAnimator,
+                    recommendIndicatorAnimator,
+                    followIndicatorAnimator
+                ))
             }
             1 -> {
                 // 关注页面
-                // 更新文本样式
-                tvFollow.setTextColor(ContextCompat.getColor(this, R.color.orange))
-                tvFollow.textSize = 18f
+                // 文本颜色动画
+                val followColorAnimator = ValueAnimator.ofArgb(
+                    tvFollow.currentTextColor,
+                    ContextCompat.getColor(this, R.color.orange)
+                )
+                followColorAnimator.addUpdateListener { animator ->
+                    tvFollow.setTextColor(animator.animatedValue as Int)
+                }
+                
+                val recommendColorAnimator = ValueAnimator.ofArgb(
+                    tvRecommend.currentTextColor,
+                    ContextCompat.getColor(this, android.R.color.darker_gray)
+                )
+                recommendColorAnimator.addUpdateListener { animator ->
+                    tvRecommend.setTextColor(animator.animatedValue as Int)
+                }
+                
+                // 文本大小动画
+                val followSizeAnimator = ValueAnimator.ofFloat(tvFollow.textSize, 18f * resources.displayMetrics.scaledDensity)
+                followSizeAnimator.addUpdateListener { animator ->
+                    tvFollow.textSize = (animator.animatedValue as Float) / resources.displayMetrics.scaledDensity
+                }
+                
+                val recommendSizeAnimator = ValueAnimator.ofFloat(tvRecommend.textSize, 16f * resources.displayMetrics.scaledDensity)
+                recommendSizeAnimator.addUpdateListener { animator ->
+                    tvRecommend.textSize = (animator.animatedValue as Float) / resources.displayMetrics.scaledDensity
+                }
+                
+                // 指示器透明度动画
+                val followIndicatorAnimator = ObjectAnimator.ofFloat(indicatorFollow, "alpha", indicatorFollow.alpha, 1f)
+                val recommendIndicatorAnimator = ObjectAnimator.ofFloat(indicatorRecommend, "alpha", indicatorRecommend.alpha, 0f)
+                
+                // 设置文本加粗
                 tvFollow.paint.isFakeBoldText = true
-
-                tvRecommend.setTextColor(ContextCompat.getColor(this, android.R.color.darker_gray))
-                tvRecommend.textSize = 16f
                 tvRecommend.paint.isFakeBoldText = false
                 
-                // 更新指示器状态
-                indicatorRecommend.visibility = View.INVISIBLE
+                // 更新指示器可见性
+                indicatorRecommend.visibility = View.VISIBLE
                 indicatorFollow.visibility = View.VISIBLE
+                
+                animators.addAll(listOf(
+                    followColorAnimator as ObjectAnimator,
+                    recommendColorAnimator as ObjectAnimator,
+                    followSizeAnimator as ObjectAnimator,
+                    recommendSizeAnimator as ObjectAnimator,
+                    followIndicatorAnimator,
+                    recommendIndicatorAnimator
+                ))
             }
         }
+        
+        // 播放动画
+        animatorSet.playTogether(animators)
+        animatorSet.duration = 200 // 200ms动画时长
+        animatorSet.start()
     }
 
     private fun observeViewModel() {

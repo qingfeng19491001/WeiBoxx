@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="6dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    app:cardElevation="1dp"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,12 +23,14 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
+            <!-- 头像 -->
             <ImageView
                 android:id="@+id/iv_avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/img_avater1"
-                android:scaleType="centerCrop" />
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:src="@drawable/img_avater1"
+                android:scaleType="centerCrop"
+                android:background="@drawable/avatar_placeholder" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -40,8 +44,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="访客357"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -93,11 +98,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:textSize="14sp"
-            android:lineSpacingExtra="4dp"
-            android:maxLines="10"
+            android:textSize="15sp"
+            android:lineSpacingExtra="6dp"
+            android:maxLines="8"
             android:ellipsize="end"
-            android:text="想和我道歉嘞过会儿；骨传导枸杞二个女四千粗野分析vuegihx体验q	我先去购物不想去我的女儿不去次不次都不武器过度过渡期我跟不回去我对钱对公赌气UI我去打个的哦亲俄的花都我去过赌鬼过得去嗯赌气我老弟不感兴趣；新的感情我GV的感情味道回了个高度轻度谷歌地球老古董个不委屈低了理财绿翠去诶佛菩萨不锈钢素材必须切不此次不起来了"
+            android:textColor="@android:color/black"
+            android:text="想和我道歉嘞过会儿；骨传导枸杞二个女四千粗野分析vuegihx体验q	我先去购物不想去我的女儿不去次不次都不武器过度过渡期我跟不回去我对钱对公赌气UI我去打个的哦亲俄的花都我去过赌鬼过得去嗯赌气我老弟不感兴趣；新的感情我GV的感情味道回了个高度轻度谷歌地球老古董个不委屈低了理财绿翠去诊佛菩萨不锈钢素材必须切不此次不起来了"
             />
 
         <!-- 图片占位符 -->
@@ -112,8 +118,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp">
 
             <LinearLayout
                 android:id="@+id/ll_share"
@@ -123,11 +131,11 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:background="?selectableItemBackground"
-                android:padding="8dp">
+                android:padding="12dp">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:src="@drawable/ic_share"
                     android:tint="@android:color/darker_gray" />
 
@@ -136,9 +144,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1.1万"
-                    android:textSize="12sp"
+                    android:textSize="13sp"
                     android:textColor="@android:color/darker_gray"
-                    android:layout_marginStart="4dp" />
+                    android:layout_marginStart="6dp" />
 
             </LinearLayout>
 
@@ -150,11 +158,11 @@
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:background="?selectableItemBackground"
-                android:padding="8dp">
+                android:padding="12dp">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:src="@drawable/ic_comment"
                     android:tint="@android:color/darker_gray" />
 
@@ -163,9 +171,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1.1万"
-                    android:textSize="12sp"
+                    android:textSize="13sp"
                     android:textColor="@android:color/darker_gray"
-                    android:layout_marginStart="4dp" />
+                    android:layout_marginStart="6dp" />
 
             </LinearLayout>
 
@@ -177,11 +185,12 @@
                 android:orientation="horizontal"
                 android:gravity="end|center_vertical"
                 android:background="?selectableItemBackground"
-                android:padding="8dp">
+                android:padding="12dp">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:id="@+id/iv_like"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:src="@drawable/ic_like"
                     app:tint="@android:color/darker_gray"
                     tools:ignore="UseAppTint" />
@@ -191,9 +200,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1.1万"
-                    android:textSize="12sp"
+                    android:textSize="13sp"
                     android:textColor="@android:color/darker_gray"
-                    android:layout_marginStart="4dp" />
+                    android:layout_marginStart="6dp" />
 
             </LinearLayout>
 
