@@ -97,6 +97,9 @@ class MainActivity : BaseActivity() {
         
         // 设置顶部工具栏按钮点击事件
         setupToolbarButtons()
+        
+        // 设置标签栏点击事件
+        setupTagsClickListeners()
     }
 
     private fun setupTopNavigation() {
@@ -138,6 +141,61 @@ class MainActivity : BaseActivity() {
             // 显示添加功能菜单
             showAddMenu(it)
         }
+    }
+    
+    private fun setupTagsClickListeners() {
+        // 获取标签栏中的各个标签
+        val tvHot = findViewById<TextView>(R.id.tv_hot)
+        val scrollTags = findViewById<android.widget.HorizontalScrollView>(R.id.scroll_tags)
+        val tagsContainer = scrollTags.getChildAt(0) as LinearLayout
+        
+        // 为热门标签添加点击事件
+        tvHot.setOnClickListener {
+            updateTagSelection(tvHot)
+            android.widget.Toast.makeText(this, "切换到热门内容", android.widget.Toast.LENGTH_SHORT).show()
+        }
+        
+        // 为其他标签添加点击事件
+        for (i in 1 until tagsContainer.childCount) {
+            val child = tagsContainer.getChildAt(i)
+            if (child is TextView) {
+                child.setOnClickListener {
+                    updateTagSelection(child)
+                    val tagText = child.text.toString()
+                    android.widget.Toast.makeText(this, "切换到${tagText}内容", android.widget.Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        
+        // 更多按钮点击事件
+        findViewById<android.widget.ImageButton>(R.id.bt_more).setOnClickListener {
+            android.widget.Toast.makeText(this, "更多标签", android.widget.Toast.LENGTH_SHORT).show()
+        }
+    }
+    
+    private fun updateTagSelection(selectedTag: TextView) {
+        // 重置所有标签的样式
+        val scrollTags = findViewById<android.widget.HorizontalScrollView>(R.id.scroll_tags)
+        val tagsContainer = scrollTags.getChildAt(0) as LinearLayout
+        val tvHot = findViewById<TextView>(R.id.tv_hot)
+        
+        // 重置热门标签样式
+        tvHot.setTextColor(ContextCompat.getColor(this, android.R.color.darker_gray))
+        tvHot.paint.isFakeBoldText = false
+        
+        // 重置其他标签样式
+        for (i in 1 until tagsContainer.childCount) {
+            val child = tagsContainer.getChildAt(i)
+            if (child is TextView) {
+                child.setTextColor(ContextCompat.getColor(this, android.R.color.darker_gray))
+                child.paint.isFakeBoldText = false
+            }
+        }
+        
+        // 设置选中标签的样式
+        selectedTag.setTextColor(ContextCompat.getColor(this, R.color.black))
+        selectedTag.paint.isFakeBoldText = true
+        selectedTag.invalidate() // 刷新TextView显示
     }
     
     private fun showAddMenu(anchorView: android.view.View) {
