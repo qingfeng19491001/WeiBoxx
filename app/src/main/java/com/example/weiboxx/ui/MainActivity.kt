@@ -49,7 +49,7 @@ class MainActivity : BaseActivity() {
             ).build().postDao(), 
             this)) }
     private lateinit var viewPager: androidx.viewpager2.widget.ViewPager2
-
+    
     // 所有Fragment
     private lateinit var homeFragment: PostListFragment
     private lateinit var videoFragment: VideoFragment
@@ -151,7 +151,6 @@ class MainActivity : BaseActivity() {
         
         // 为热门标签添加点击事件
         tvHot.setOnClickListener {
-            updateTagSelection(tvHot)
             android.widget.Toast.makeText(this, "切换到热门内容", android.widget.Toast.LENGTH_SHORT).show()
         }
         
