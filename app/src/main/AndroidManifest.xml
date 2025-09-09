@@ -47,6 +47,9 @@
         <activity
             android:name=".ui.login.CountryPickerActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.profile.ProfileEditActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

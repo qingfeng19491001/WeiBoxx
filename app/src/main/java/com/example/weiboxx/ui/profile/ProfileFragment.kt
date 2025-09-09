@@ -1,5 +1,6 @@
 package com.example.weiboxx.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,7 +43,8 @@ class ProfileFragment : Fragment() {
     private fun setupClickListeners() {
         // 完善资料按钮点击事件
         btnPerfectInfo.setOnClickListener {
-            Toast.makeText(context, "完善资料功能", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, ProfileEditActivity::class.java)
+            startActivity(intent)
         }
 
         // 为顶部工具栏的图标添加点击事件
